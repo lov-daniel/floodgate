@@ -14,8 +14,7 @@ decryptedMessage = []
 # MAIN FUNCTIONS #
 
 def start():
-    print("Encrypt (1) or Decrypt (2)")
-    usageChoice = input().upper()
+    usageChoice = input("Encrypt (1) or Decrypt (2)\n").upper()
 
     if checkString(usageChoice):
 
@@ -49,7 +48,7 @@ def checkString(stringMessage):
 
 def optionalExit():
 
-    choice = input("Exit program (1) or return to beginning (2)")
+    choice = input("Exit program (1) or return to beginning (2)\n")
     if checkString(choice):
 
         if choice == "1":

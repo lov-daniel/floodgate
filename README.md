@@ -5,15 +5,17 @@ What is Floodgate
 Floodgate is a small project that I created in order to practice my understanding of how ciphers work. Cryptology entered my life as a small interest and I wanted to apply it to my skills as a computer programmer. The program works by first taking in a message, this message can be encrypted or decrypted, and the program runs the message through a series of functions and returns a string value of the encrypted/decrypted message.
 
 How does it work?
--
+-   
 Currently, the program is utilizing three different forms of encryption: a Caeser cipher[^1], a Vigenère cipher[^2], and another cipher that I
 developed involving the use of mathematical functions, more on this later. 
 <br><br/>
-The program itself runs through a specific encryption with the reverse order applying to the decryption sequence. It first applies the shift by one letter to the right. This shift causes the following changes : 
+The program itself runs through a specific encryption with the reverse order applying to the decryption sequence. The Caeser cipher is first applied which causes a shift by one letter to the right. This shift causes the following changes to letters within the given message:
+<p>
 * a -> b, 
 * b -> c,
 * etc.
-
+<p/>
+test
 
 [^1]: Caeser ciphers, also known as Caeser shift ciphers, are very basic, involving the movement of letter positions.
   [^2]: Vigenère ciphers are very similar in nature to the Caeser cipher, however, the primary difference is that 
