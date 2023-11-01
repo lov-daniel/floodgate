@@ -1,6 +1,5 @@
 # IMPORTED LIBRARIES #
 import string
-import os
 
 # VARIABLE SETUP
 
@@ -25,7 +24,7 @@ def start():
         message = input("Enter the message: \n").lower()
         keyword = input("Enter a keyword:\n").lower()
 
-        if checkChars(message) and checkChars(keyword):
+        if checkChars(message, "skip") and checkChars(keyword, ""):
 
             if usageChoice == "1":
                     encryptMessage(message, keyword)
@@ -38,10 +37,8 @@ def start():
                     optionalExit()
             
         else:
-            os.system('cls')
             print("Keep your message/keyword alphabetical")
     else:
-        os.system('cls')
         print("Please choose a valid input")
 
 def checkString(stringMessage):
@@ -54,7 +51,10 @@ def checkString(stringMessage):
 
     return False
 
-def checkChars(string):
+def checkChars(string, usageChoice):
+
+    if usageChoice == "skip":
+        return True
 
     for letter in string:
         if letter not in lowercaseLetters:
@@ -75,7 +75,6 @@ def optionalExit():
             inLoop = False
         else:
 
-            os.system('cls')
             print("Returning to the start..")
     else:
 
@@ -115,7 +114,6 @@ def vigenereEncrypt(message, keyword):
     for charIndex in range(len(message)):
         if message[charIndex] == "*":
             spaceIndex.append(charIndex)
-    
     for elements in spaceIndex:
         message.remove("*")
 
@@ -126,32 +124,41 @@ def vigenereEncrypt(message, keyword):
                 break
         
     for index in range(len(message)):
-        encryptedMessage[index] = lowercaseLetters[((lowercaseLetters.index(message[index]) + lowercaseLetters.index(usedKeyword[index])) % 26)]
+        letterIndex = (lowercaseLetters.index(message[index]) + lowercaseLetters.index(usedKeyword[index]))
+        encryptedMessage[index] = lowercaseLetters[(letterIndex % 26)]
     
     message = insertSpacings(message, spaceIndex, "encrypt")
-    print(message)
+
+def tsunamiEncrypt():
+    global encryptedMessage
+
+    for index in range(len(encryptedMessage)):
+        encryptedMessage[index] = str(round(ord(encryptedMessage[index]) / 42, 3))
+        
+def endEncryption():
+    finalMessage = " ".join(encryptedMessage)
+    print(finalMessage)
 
 def encryptMessage(message, keyword):
     caeserEncrypt(message)
     vigenereEncrypt(encryptedMessage, keyword)
-    
-    
-
+    tsunamiEncrypt()
+    endEncryption()
 
 # DECRYPTION FUNCTIONS #
 
-def caeserDecrypt(message):
+def caeserDecrypt():
     global decryptedMessage
 
-    for letter in message:
+    for index in range(len(decryptedMessage)):
 
-        if letter == "*":
-            decryptedMessage.append(" ")
+        if decryptedMessage[index] == " ":
+            decryptedMessage[index] = " "
         else:
-            letterIndex = lowercaseLetters.index(letter)
+            letterIndex = lowercaseLetters.index(decryptedMessage[index])
             if (letterIndex - 1 == -1):
                 letterIndex = 26
-            decryptedMessage.append(lowercaseLetters[(letterIndex - 1)])
+            decryptedMessage[index] = (lowercaseLetters[(letterIndex - 1)])
 
 def vigenereDecrypt(message, keyword):
     global decryptedMessage
@@ -160,11 +167,11 @@ def vigenereDecrypt(message, keyword):
     spaceIndex = []
 
     for charIndex in range(len(message)):
-        if message[charIndex] == " ":
+        if message[charIndex] == "*":
             spaceIndex.append(charIndex)
     
     for elements in spaceIndex:
-        message.remove(" ")
+        message.remove("*")
 
     while len(message) > len(usedKeyword):
         for letter in keyword:
@@ -181,11 +188,25 @@ def vigenereDecrypt(message, keyword):
         decryptedMessage[index] = lowercaseLetters[(letterIndex) % 26]
     
     message = insertSpacings(message, spaceIndex, "decrypt")
-    print(message)
 
-def decryptMessage(messsage, keyword):
-    caeserDecrypt(messsage)
+def tsunamiDecrypt(message):
+    
+    global decryptedMessage
+
+    decryptedMessage = message.split(" ")
+
+    for index in range(len(decryptedMessage)):
+        decryptedMessage[index] = chr(int(round(float(decryptedMessage[index]) * 42, 0)))
+
+def endDecryption():
+    finalMessage = "".join(decryptedMessage)
+    print(finalMessage)
+
+def decryptMessage(message, keyword):
+    tsunamiDecrypt(message)
     vigenereDecrypt(decryptedMessage, keyword)
+    caeserDecrypt()
+    endDecryption()
 
 
 # PRIMARY CODE EXECUTION #
