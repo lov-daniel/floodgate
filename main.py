@@ -1,6 +1,5 @@
 # IMPORTED LIBRARIES #
 import string
-import os
 
 # VARIABLE SETUP
 
@@ -38,10 +37,8 @@ def start():
                     optionalExit()
             
         else:
-            os.system('cls')
             print("Keep your message/keyword alphabetical")
     else:
-        os.system('cls')
         print("Please choose a valid input")
 
 def checkString(stringMessage):
@@ -78,7 +75,6 @@ def optionalExit():
             inLoop = False
         else:
 
-            os.system('cls')
             print("Returning to the start..")
     else:
 
@@ -118,7 +114,6 @@ def vigenereEncrypt(message, keyword):
     for charIndex in range(len(message)):
         if message[charIndex] == "*":
             spaceIndex.append(charIndex)
-    
     for elements in spaceIndex:
         message.remove("*")
 
@@ -129,20 +124,11 @@ def vigenereEncrypt(message, keyword):
                 break
         
     for index in range(len(message)):
-        encryptedMessage[index] = lowercaseLetters[((lowercaseLetters.index(message[index]) + lowercaseLetters.index(usedKeyword[index])) % 26)]
+        letterIndex = (lowercaseLetters.index(message[index]) + lowercaseLetters.index(usedKeyword[index]))
+        encryptedMessage[index] = lowercaseLetters[(letterIndex % 26)]
     
     message = insertSpacings(message, spaceIndex, "encrypt")
-
-def tsunamiEncrypt():
-    global encryptedMessage
-
-    for index in range(len(encryptedMessage)):
-        encryptedMessage[index] = str(round(ord(encryptedMessage[index]) / 42, 3))
-        
-def endEncryption():
-    os.system('cls')
-    finalMessage = " ".join(encryptedMessage)
-    print(finalMessage)
+    print(message)
 
 def encryptMessage(message, keyword):
     caeserEncrypt(message)
@@ -193,20 +179,7 @@ def vigenereDecrypt(message, keyword):
         decryptedMessage[index] = lowercaseLetters[(letterIndex) % 26]
     
     message = insertSpacings(message, spaceIndex, "decrypt")
-
-def tsunamiDecrypt(message):
-    
-    global decryptedMessage
-
-    decryptedMessage = message.split(" ")
-
-    for index in range(len(decryptedMessage)):
-        decryptedMessage[index] = chr(int(round(float(decryptedMessage[index]) * 42, 0)))
-
-def endDecryption():
-    os.system('cls')
-    finalMessage = "".join(decryptedMessage)
-    print(finalMessage)
+    print(message)
 
 def decryptMessage(message, keyword):
     tsunamiDecrypt(message)
