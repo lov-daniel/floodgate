@@ -1,4 +1,4 @@
-# IMPORTED LIBRARIES
+# IMPORTED LIBRARIES #
 import string
 
 # VARIABLE SETUP
@@ -128,7 +128,16 @@ def vigenereEncrypt(message, keyword):
         encryptedMessage[index] = lowercaseLetters[(letterIndex % 26)]
     
     message = insertSpacings(message, spaceIndex, "encrypt")
-    print(message)
+
+def tsunamiEncrypt():
+    global encryptedMessage
+
+    for index in range(len(encryptedMessage)):
+        encryptedMessage[index] = str(round(ord(encryptedMessage[index]) / 42, 3))
+        
+def endEncryption():
+    finalMessage = " ".join(encryptedMessage)
+    print(finalMessage)
 
 def encryptMessage(message, keyword):
     caeserEncrypt(message)
@@ -179,7 +188,19 @@ def vigenereDecrypt(message, keyword):
         decryptedMessage[index] = lowercaseLetters[(letterIndex) % 26]
     
     message = insertSpacings(message, spaceIndex, "decrypt")
-    print(message)
+
+def tsunamiDecrypt(message):
+    
+    global decryptedMessage
+
+    decryptedMessage = message.split(" ")
+
+    for index in range(len(decryptedMessage)):
+        decryptedMessage[index] = chr(int(round(float(decryptedMessage[index]) * 42, 0)))
+
+def endDecryption():
+    finalMessage = "".join(decryptedMessage)
+    print(finalMessage)
 
 def decryptMessage(message, keyword):
     tsunamiDecrypt(message)
